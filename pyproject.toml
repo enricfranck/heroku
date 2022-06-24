@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "test_fastapi_app"
+version = "0.1.0"
+description = "Retrive data from api andr write into google spreadsheet"
+authors = ["Franck"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "*"
+uvicorn = "*"
+#for template  #new
+jinja2 = "*"
+#for static files
+aiofiles = "*"
+#for database   #new
+sqlalchemy = "*"
+psycopg2-binary = "*"
+#for loading environment variables  #new
+python-dotenv = "*"
+#for email validation            #new
+pydantic = {version = "*", extras = ["email"]}
+#hashing              #new
+passlib = {extras = ["bcrypt"], version = "*"}
+#for testing       #new
+pytest = "*"
+requests = "*"
+#for jwt tokens    #new
+python-jose = "*"
+#for  cleaning up codebase on each commit
+pre-commit = "*"
+
+#for accessing form data       #new
+python-multipart = "*"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
