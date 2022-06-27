@@ -1,4 +1,9 @@
+import json
 from datetime import timedelta
+
+from authlib.integrations.base_client import OAuthError
+from fastapi import Request
+from starlette.responses import HTMLResponse, RedirectResponse
 
 from app.core.config import settings
 from app.core.hashing import Hasher
@@ -65,3 +70,41 @@ def get_current_user_from_token(token: str = Depends(oauth2_scheme), db: Session
     if user is None:
         raise credentials_exception
     return user
+
+
+@router.get('/login')
+async def login(request: Request):
+    redirect_uri = request.url_for('auth')
+    return await settings.oauth.google.authorize_redirect(request, redirect_uri)
+
+
+@router.get('/auth')
+async def auth(request: Request):
+    try:
+        token = await settings.oauth.google.authorize_access_token(request)
+    except OAuthError as error:
+        print("erreur", error)
+        return HTMLResponse(f'<h1>{error.error}</h1>')
+    user = token.get('userinfo')
+    if user:
+        request.session['user'] = dict(user)
+    return RedirectResponse(url='/login/')
+
+
+@router.get('/')
+async def homepage(request: Request):
+    user = request.session.get('user')
+    if user:
+        data = json.dumps(user)
+        html = (
+            f'<pre>{data}</pre>'
+            '<a href="/logout">logout</a>'
+        )
+        return HTMLResponse(html)
+    return HTMLResponse('<a href="/login">login</a>')
+
+
+@router.get('/logout')
+async def logout(request: Request):
+    request.session.pop('user', None)
+    return RedirectResponse(url='/login/')

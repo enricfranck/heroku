@@ -1,7 +1,9 @@
 import os
 from pathlib import Path
 
+from authlib.integrations.starlette_client import OAuth
 from dotenv import load_dotenv
+from starlette.config import Config
 
 env_path = Path('') / '.env'
 load_dotenv(dotenv_path=env_path)
@@ -22,6 +24,18 @@ class Settings:
     ALGORITHM = "HS256"  # new
     ACCESS_TOKEN_EXPIRE_MINUTES = 30  # in mins  #new
     TEST_USER_EMAIL = "test@example.com"  # new
+
+    config = Config('.env')
+    oauth = OAuth(config)
+
+    CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
+    oauth.register(
+        name='google',
+        server_metadata_url=CONF_URL,
+        client_kwargs={
+            'scope': 'openid email profile'
+        }
+    )
 
 
 settings = Settings()

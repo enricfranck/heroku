@@ -1,3 +1,5 @@
+from starlette.middleware.sessions import SessionMiddleware
+
 from app.apis.base import api_router
 from app.core.config import settings
 from app.db.base import Base
@@ -5,7 +7,6 @@ from app.db.session import engine
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles  # new
 from starlette.middleware.cors import CORSMiddleware
-
 
 def include_router(app):
     app.include_router(api_router)
@@ -22,6 +23,7 @@ def create_tables():  # new
 
 def start_application():
     app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
+    app.add_middleware(SessionMiddleware, secret_key="!secret")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],

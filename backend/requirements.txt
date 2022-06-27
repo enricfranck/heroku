@@ -23,3 +23,8 @@ pre-commit
 
 #for accessing form data       #new
 python-multipart
+
+#for google connexion
+authlib
+itsdangerous
+httpx
