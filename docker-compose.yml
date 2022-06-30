@@ -9,7 +9,7 @@ services:
       - ./backend/:/backend/
     command: uvicorn app.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
     env_file:
-      - ./backend/.env
+      - app/.env
     ports:
       - "8000:8000"
     depends_on:
@@ -20,7 +20,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     env_file:
-      - ./backend/.env
+      - app/.env
 
   pgadmin4:
     user: root
@@ -31,7 +31,7 @@ services:
     ports:
       - "5050:80"
     env_file:
-      - ./backend/.env
+      - app/.env
     hostname: pgadmin4
     depends_on:
       - db
