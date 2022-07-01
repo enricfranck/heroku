@@ -18,6 +18,6 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get("/", response_model=List[ShowUser])
-def create_user(db: Session = Depends(get_db)):
+def get_all_user(db: Session = Depends(get_db)):
     user = get_all_user(db=db)
     return user
