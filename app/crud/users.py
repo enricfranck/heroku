@@ -1,6 +1,8 @@
+from typing import List
+
 from app.core.hashing import Hasher
 from app.models.users import User
-from app.schemas.users import UserCreate
+from app.schemas.users import UserCreate, ShowUser
 from sqlalchemy.orm import Session
 
 
@@ -19,4 +21,9 @@ def create_new_user(user: UserCreate, db: Session):
 
 def get_user_by_email(email: str, db: Session):  # new
     user = db.query(User).filter(User.email == email).first()
+    return user
+
+
+def get_all_user(db: Session) -> List[ShowUser]:  # new
+    user = db.query(User).all()
     return user
