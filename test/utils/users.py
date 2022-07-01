@@ -1,7 +1,7 @@
 from app.crud.users import create_new_user
 from app.crud.users import get_user_by_email
-from app.schemas.users import UserCreate
 from fastapi.testclient import TestClient
+from app.schemas.users import UserCreate
 from sqlalchemy.orm import Session
 
 

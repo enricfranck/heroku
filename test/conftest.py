@@ -16,7 +16,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.db.base import Base
 from app.db.session import get_db
 from app.apis.base import api_router
-from app.core.config import settings  # new
+from app.core.config import settings
 from utils.users import authentication_token_from_email
 
 
@@ -34,7 +34,7 @@ engine = create_engine(
 SessionTesting = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def app() -> Generator[FastAPI, Any, None]:
     """
     Create a fresh database on each test case.
@@ -45,7 +45,7 @@ def app() -> Generator[FastAPI, Any, None]:
     Base.metadata.drop_all(engine)
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
     connection = engine.connect()
     transaction = connection.begin()
@@ -56,9 +56,9 @@ def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
     connection.close()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="module")
 def client(
-        app: FastAPI, db_session: SessionTesting
+    app: FastAPI, db_session: SessionTesting
 ) -> Generator[TestClient, Any, None]:
     """
     Create a new FastAPI TestClient that uses the `db_session` fixture to override
@@ -76,7 +76,7 @@ def client(
         yield client
 
 
-@pytest.fixture(scope="module")  # new function
+@pytest.fixture(scope="module")
 def normal_user_token_headers(client: TestClient, db_session: Session):
     return authentication_token_from_email(
         client=client, email=settings.TEST_USER_EMAIL, db=db_session

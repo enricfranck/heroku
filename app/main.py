@@ -1,6 +1,7 @@
 from starlette.middleware.sessions import SessionMiddleware
 
 from app.apis.base import api_router
+from app.webapps.base import api_router as web_app_router
 from app.core.config import settings
 from app.db.base import Base
 from app.db.session import engine
@@ -10,6 +11,7 @@ from starlette.middleware.cors import CORSMiddleware
 
 def include_router(app):
     app.include_router(api_router)
+    app.include_router(web_app_router)
 
 
 def configure_static(app):  # new
