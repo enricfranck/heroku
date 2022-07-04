@@ -18,7 +18,7 @@ from app.schemas.tokens import Token
 from sqlalchemy.orm import Session
 
 # from fastapi.security import OAuth2PasswordBearer
-from schemas.users import ShowUser
+from app.schemas.users import ShowUser
 
 router = APIRouter()
 
