@@ -58,7 +58,7 @@ def login_for_access_token(
 oauth2_scheme = OAuth2PasswordBearerWithCookie(tokenUrl="/login/token")
 
 
-@router.post("/token", response_model=ShowUser)
+@router.post("/token/{token}", response_model=ShowUser)
 def get_current_user_from_token(
         token: str,
         db: Session = Depends(get_db)
