@@ -65,7 +65,7 @@ def get_current_user_from_token(
 ):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Could not validate credentials",
+        detail="Invalid token",
     )
     try:
         payload = jwt.decode(
