@@ -11,3 +11,9 @@ def test_create_user(client):
     assert response.status_code == 200
     assert response.json()["email"] == "testuser@nofoobar.com"
     assert response.json()["is_active"] == True
+
+
+def test_get_user(client):
+    response = client.get("/users/",)
+    assert response.status_code == 200
+    assert response.json()[0]
