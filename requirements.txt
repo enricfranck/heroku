@@ -28,3 +28,7 @@ python-multipart
 authlib
 itsdangerous
 httpx
+# for send meail
+fastapi-mail
+# for l'id
+uuid

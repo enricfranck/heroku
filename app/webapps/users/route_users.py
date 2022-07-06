@@ -1,4 +1,4 @@
-from app.crud.users import create_new_user
+from app.crud import users
 from app.db.session import get_db
 from fastapi import APIRouter
 from fastapi import Depends
@@ -30,7 +30,7 @@ async def register(request: Request, db: Session = Depends(get_db)):
             username=form.username, email=form.email, password=form.password
         )
         try:
-            user = create_new_user(user=user, db=db)
+            user = users.create(obj_in=user, db=db)
             return responses.RedirectResponse(
                 "/?msg=Successfully-Registered", status_code=status.HTTP_302_FOUND
             )  # default is post request, to use get request added status code 302

@@ -4,10 +4,13 @@ from app.apis.base import api_router
 from app.webapps.base import api_router as web_app_router
 from app.core.config import settings
 from app.db.base import Base
-from app.db.session import engine
+from app.db.session import engine, SessionLocal
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles  # new
 from starlette.middleware.cors import CORSMiddleware
+
+from app.db.init_data import init_db
+
 
 def include_router(app):
     app.include_router(api_router)
@@ -21,6 +24,9 @@ def configure_static(app):  # new
 def create_tables():  # new
     print("create_tables")
     Base.metadata.create_all(bind=engine)
+
+    db = SessionLocal()
+    init_db(db)
 
 
 def start_application():

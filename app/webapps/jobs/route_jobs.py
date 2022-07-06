@@ -2,10 +2,7 @@ from typing import Optional
 
 from app.apis.version1.route_login import get_current_user_from_token
 from app.models.users import User
-from app.crud.jobs import create_new_job
-from app.crud.jobs import list_jobs
-from app.crud.jobs import retreive_job
-from app.crud.jobs import search_job
+from app.crud import job
 from app.db.session import get_db
 from fastapi import APIRouter
 from fastapi import Depends
@@ -25,7 +22,7 @@ router = APIRouter(include_in_schema=False)
 
 @router.get("/")
 async def home(request: Request, db: Session = Depends(get_db), msg: str = None):
-    jobs = list_jobs(db=db)
+    jobs = job.list_jobs(db=db)
     return templates.TemplateResponse(
         "general_pages/homepage.html", {"request": request, "jobs": jobs, "msg": msg}
     )
@@ -33,9 +30,9 @@ async def home(request: Request, db: Session = Depends(get_db), msg: str = None)
 
 @router.get("/details/{id}")
 def job_detail(id: int, request: Request, db: Session = Depends(get_db)):
-    job = retreive_job(id=id, db=db)
+    jobs = job.retreive_job(id=id, db=db)
     return templates.TemplateResponse(
-        "jobs/detail.html", {"request": request, "job": job}
+        "jobs/detail.html", {"request": request, "job": jobs}
     )
 
 
@@ -55,8 +52,8 @@ async def create_job(request: Request, db: Session = Depends(get_db)):
                 token
             )  # scheme will hold "Bearer" and param will hold actual token value
             current_user: User = get_current_user_from_token(token=param, db=db)
-            job = JobCreate(**form.__dict__)
-            job = create_new_job(job=job, db=db, owner_id=current_user.id)
+            jobs = JobCreate(**form.__dict__)
+            jobs = job.create(job=job, db=db, owner_id=current_user.id)
             return responses.RedirectResponse(
                 f"/details/{job.id}", status_code=status.HTTP_302_FOUND
             )
@@ -71,7 +68,7 @@ async def create_job(request: Request, db: Session = Depends(get_db)):
 
 @router.get("/delete-job/")
 def show_jobs_to_delete(request: Request, db: Session = Depends(get_db)):
-    jobs = list_jobs(db=db)
+    jobs = job.list_jobs(db=db)
     return templates.TemplateResponse(
         "jobs/show_jobs_to_delete.html", {"request": request, "jobs": jobs}
     )
@@ -81,7 +78,7 @@ def show_jobs_to_delete(request: Request, db: Session = Depends(get_db)):
 def search(
     request: Request, db: Session = Depends(get_db), query: Optional[str] = None
 ):
-    jobs = search_job(query, db=db)
+    jobs = job.search_job(query, db=db)
     return templates.TemplateResponse(
         "general_pages/homepage.html", {"request": request, "jobs": jobs}
     )

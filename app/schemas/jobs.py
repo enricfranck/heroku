@@ -1,6 +1,7 @@
 from datetime import date
 from datetime import datetime
 from typing import Optional
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -23,8 +24,16 @@ class JobCreate(JobBase):
     description: str
 
 
-# this will be used to format the response to not to have id,owner_id etc
+class JobUpdate(JobBase):
+    title: Optional[str]
+    company: Optional[str]
+    location: Optional[str]
+    description: Optional[str]
+
+
+# this will be used to format the response to not have id,owner_id etc
 class ShowJob(JobBase):
+    id: Optional[UUID]
     title: str
     company: str
     company_url: Optional[str]

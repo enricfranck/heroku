@@ -4,7 +4,10 @@ from app.core.config import settings
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 #
-SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
+
+SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL_PROD
+if settings.USE_LOCALHOST:
+    SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL_LOCAL
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 # if you don't want to install postgres or any database, use sqlite, a file system based database,
