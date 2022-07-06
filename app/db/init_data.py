@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.core.hashing import Hasher
 from app.crud import users
 from app.models.users import User
+from app.schemas.users import UserCreate
 
 
 def init_db(db: Session) -> None:
@@ -15,10 +16,10 @@ def init_db(db: Session) -> None:
 
     user = users.get_user_by_email(db=db, email=os.getenv("SUPPER_ADMIN_EMAIL"))
     if not user:
-        user_in = User(
+        user_in = UserCreate(
             username=os.getenv("SUPPER_ADMIN_EMAIL"),
             email=os.getenv("SUPPER_ADMIN_EMAIL"),
-            hashed_password=os.getenv("SUPPER_ADMIN_PASSWORD"),
+            password=os.getenv("SUPPER_ADMIN_PASSWORD"),
             is_active=True,
             is_superuser=True
         )
