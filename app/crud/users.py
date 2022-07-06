@@ -1,4 +1,5 @@
 import os
+import uuid
 from typing import List, Union, Dict, Any
 
 from fastapi.encoders import jsonable_encoder
@@ -14,11 +15,13 @@ from app.crud.base import CRUDBase
 class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
 
     def create(self, obj_in: UserCreate, db: Session) -> User:
-        user = User(username=obj_in.username,
-                    email=obj_in.email,
-                    hashed_password=Hasher.get_password_hash(obj_in.password),
-                    is_active=True,
-                    is_superuser=obj_in.is_superuser
+        user = User(
+            id=str(uuid.uuid4()),
+            username=obj_in.username,
+            email=obj_in.email,
+            hashed_password=Hasher.get_password_hash(obj_in.password),
+            is_active=True,
+            is_superuser=obj_in.is_superuser
                     )
         obj_in_data = jsonable_encoder(user)
         db_obj = self.model(**obj_in_data)
@@ -28,7 +31,9 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
         return db_obj
 
     def create_supper_admin(self, user: UserCreate, db: Session):
-        user = User(username=user.username,
+        user = User(
+                    id=str(uuid.uuid4()),
+                    username=user.username,
                     email=user.email,
                     hashed_password=Hasher.get_password_hash(user.password),
                     is_active=True,

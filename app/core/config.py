@@ -43,9 +43,6 @@ class Settings:
     )
     id = ""
 
-
-
-"""
     conf = ConnectionConfig(
         MAIL_USERNAME=os.getenv("EMAIL_USERNAME"),
         MAIL_PASSWORD=os.getenv("EMAIL_PASSWORD"),
@@ -58,6 +55,6 @@ class Settings:
         USE_CREDENTIALS=True,
         VALIDATE_CERTS=True
     )
-"""
+
 
 settings = Settings()
