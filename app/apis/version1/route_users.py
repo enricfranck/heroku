@@ -33,6 +33,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     message = random_mdp()
     user_in = UserUpdate(**{"email": user.email, "reset_password": message})
     users.update(db=db, db_obj=user, obj_in=user_in)
+    send_email(user.email, message)
     return user
 
 
