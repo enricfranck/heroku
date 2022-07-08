@@ -27,7 +27,7 @@ class Settings:
     ALGORITHM = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES = 30  # in mins
     TEST_USER_EMAIL = "test@example.com"
-    USE_LOCALHOST = True
+    USE_LOCALHOST = False
 
     EMAIL_TEMPLATES_DIR = "/app/template"
     PROJECT_NAME = "Jobs Finder"
