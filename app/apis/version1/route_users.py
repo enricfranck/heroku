@@ -28,6 +28,11 @@ def verify_rest_password(email: str, password: str, db: Session = Depends(get_db
 @router.post("/", response_model=ShowUser)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     user = users.create(obj_in=user, db=db)
+    if not user:
+        raise HTTPException(status_code=400, detail="User not found")
+    message = random_mdp()
+    user_in = UserUpdate(**{"email": user.email, "reset_password": message})
+    users.update(db=db, db_obj=user, obj_in=user_in)
     return user
 
 
