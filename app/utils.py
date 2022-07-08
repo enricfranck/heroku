@@ -1,7 +1,6 @@
 import os
 import random
-import string
-from typing import Dict, Union
+from typing import Dict
 
 from redmail import gmail
 

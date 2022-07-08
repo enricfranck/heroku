@@ -3,7 +3,6 @@ from pathlib import Path
 
 from authlib.integrations.starlette_client import OAuth
 from dotenv import load_dotenv
-from fastapi_mail import ConnectionConfig
 from starlette.config import Config
 
 env_path = Path('') / '.env'
@@ -36,7 +35,7 @@ class Settings:
     config = Config('.env')
     oauth = OAuth(config)
 
-    EMAILS_ENABLED = False
+    EMAILS_ENABLED = True
 
     CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
     oauth.register(
@@ -59,19 +58,6 @@ class Settings:
     PASSWORD_FROM_EMAIL = os.getenv("PASSWORD_FROM_EMAIL")
 
     TEST_SEND_MAIL = os.getenv("TEST_SEND_MAIL")
-
-    conf = ConnectionConfig(
-        MAIL_USERNAME="Franck Enric",
-        MAIL_PASSWORD="",
-        MAIL_FROM="enricfranck@gmail.com",
-        MAIL_PORT=587,
-        MAIL_SERVER="smtp.gmail.com",
-        MAIL_FROM_NAME="Enric Franck",
-        MAIL_TLS=True,
-        MAIL_SSL=False,
-        USE_CREDENTIALS=True,
-        VALIDATE_CERTS=True
-    )
 
     HTML = """
     <p> Bonjour, cordialement</>
