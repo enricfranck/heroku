@@ -55,10 +55,17 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
             update_data = obj_in
         else:
             update_data = obj_in.dict(exclude_unset=True)
-        if update_data["password"]:
+
+        if "password" in update_data:
             hashed_password = Hasher.get_password_hash(update_data["password"])
             del update_data["password"]
             update_data["hashed_password"] = hashed_password
+
+        if "reset_password" in update_data:
+            hashed_password = Hasher.get_password_hash(update_data["reset_password"])
+            del update_data["reset_password"]
+            update_data["reset_password"] = hashed_password
+
         return super().update(db, db_obj=db_obj, obj_in=update_data)
 
     def get_all_user(self, db: Session) -> List[ShowUser]:  # new

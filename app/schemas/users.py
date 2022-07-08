@@ -18,6 +18,7 @@ class UserUpdate(BaseModel):
     username: Optional[str]
     email: Optional[EmailStr]
     password: Optional[str]
+    reset_password: Optional[str]
 
 
 class ShowUser(BaseModel):  # new

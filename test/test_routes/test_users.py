@@ -20,6 +20,11 @@ def test_create_user(client):
 
 
 def test_get_user(client):
-    response = client.get("/users/", )
+    response = client.get("/users/")
     assert response.status_code == 200
     assert response.json()[0]
+
+
+def test_send_email(client):
+    response = client.post(f"/users/email?email={settings.TEST_SEND_MAIL}")
+    assert response.json()["message"] == "Send mail successfully"

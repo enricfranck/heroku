@@ -1,3 +1,5 @@
+import uuid
+
 from app.models.jobs import Job
 from app.schemas.jobs import JobCreate, JobUpdate
 from sqlalchemy.orm import Session
@@ -7,7 +9,7 @@ from app.crud.base import CRUDBase
 
 class CRUDJobs(CRUDBase[Job, JobCreate, JobUpdate]):
     def create(self, obj_in: JobCreate, db: Session, owner_id: int):
-        job_object = Job(**obj_in.dict(), owner_id=owner_id)
+        job_object = Job(**obj_in.dict(), owner_id=owner_id, id=str(uuid.uuid4()))
         db.add(job_object)
         db.commit()
         db.refresh(job_object)

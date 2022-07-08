@@ -1,5 +1,5 @@
 uvicorn
-fastapi
+fastapi~=0.78.0
 #for template  #new
 jinja2
 #for static files
@@ -8,13 +8,13 @@ aiofiles
 sqlalchemy==1.3.23
 psycopg2-binary
 #for loading environment variables  #new
-python-dotenv
+python-dotenv~=0.20.0
 #for email validation            #new
-pydantic[email]
+pydantic[email]~=1.9.1
 #hashing              #new
-passlib[bcrypt]
+passlib[bcrypt]~=1.7.4
 #for testing       #new
-pytest
+pytest~=7.1.2
 requests
 #for jwt tokens    #new
 python-jose
@@ -25,10 +25,11 @@ pre-commit
 python-multipart
 
 #for google connexion
-authlib
+authlib~=1.0.1
 itsdangerous
 httpx
 # for send meail
-fastapi-mail
+emails~=0.6
 # for l'id
-uuid
+uuid~=1.30
+redmail
