@@ -29,6 +29,7 @@ class Settings:
     TEST_USER_EMAIL = "test@example.com"
     USE_LOCALHOST = False
 
+
     EMAIL_TEMPLATES_DIR = "/app/template"
     PROJECT_NAME = "Jobs Finder"
 
