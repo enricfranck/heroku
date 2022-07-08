@@ -31,7 +31,7 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return user
 
 
-@router.post("/reset")
+@router.put("/reset")
 def verify_password(user: UserReset, db: Session = Depends(get_db)):
     user = verify_rest_password(user.email, user.reset_password, db)
     if not user:
