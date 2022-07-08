@@ -20,7 +20,7 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
             username=obj_in.username,
             email=obj_in.email,
             hashed_password=Hasher.get_password_hash(obj_in.password),
-            is_active=True,
+            is_active=False,
             is_superuser=obj_in.is_superuser
                     )
         obj_in_data = jsonable_encoder(user)
