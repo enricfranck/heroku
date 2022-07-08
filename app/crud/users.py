@@ -64,7 +64,7 @@ class CRUDUsers(CRUDBase[User, UserCreate, UserUpdate]):
         if "reset_password" in update_data:
             hashed_password = Hasher.get_password_hash(update_data["reset_password"])
             del update_data["reset_password"]
-            update_data["reset_password"] = hashed_password
+            update_data["hashed_reset_password"] = hashed_password
 
         return super().update(db, db_obj=db_obj, obj_in=update_data)
 

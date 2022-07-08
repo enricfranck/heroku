@@ -36,7 +36,7 @@ class Settings:
     config = Config('.env')
     oauth = OAuth(config)
 
-    EMAILS_ENABLED = True
+    EMAILS_ENABLED = False
 
     CONF_URL = 'https://accounts.google.com/.well-known/openid-configuration'
     oauth.register(

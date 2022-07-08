@@ -21,6 +21,12 @@ class UserUpdate(BaseModel):
     reset_password: Optional[str]
 
 
+# properties not required during user update
+class UserReset(BaseModel):
+    email: Optional[EmailStr]
+    reset_password: Optional[str]
+
+
 class ShowUser(BaseModel):  # new
     id: UUID
     username: str
