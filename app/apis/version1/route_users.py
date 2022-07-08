@@ -35,8 +35,10 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 def verify_password(user: UserReset, db: Session = Depends(get_db)):
     user = verify_rest_password(user.email, user.reset_password, db)
     if not user:
-        raise HTTPException(status_code=400, detail="Password not verified")
-    return{"verify": True}
+        raise HTTPException(status_code=400, detail="Code not verified")
+    user_in = UserUpdate(**{"email": user.email, "is_selected": True})
+    users.update(db=db, db_obj=user, obj_in=user_in)
+    return user
 
 
 @router.get("/", response_model=List[ShowUser])
